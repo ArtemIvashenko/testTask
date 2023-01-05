@@ -54,9 +54,12 @@ const columnDefs = [
 	headerName: 'GROUP1',
 
     children: [
-        {field:'Col1' },
-        {field: 'Col2'},
-        {field: 'Col3' },
+        {field:'Col1',
+            tooltipField: 'Col1',
+            tooltipComponentParams: { color: '#ececec' },
+         },
+        {field: 'Col2', tooltipField: 'Col2'},
+        {field: 'Col3' ,tooltipField: 'Col2'},
         
     ]
 },
@@ -103,7 +106,18 @@ return rowData;
 
 
 const gridOptions = {
+    defaultColDef: {
+    editable: true,
+    sortable: true,
+    flex: 1,
+    minWidth: 100,
+    filter: true,
+    resizable: true,
+    tooltipComponent: CustomTooltip,
+  },
   columnDefs: columnDefs, 
+  tooltipShowDelay: 0,
+  tooltipHideDelay: 2000,
   rowData: rowData,
 
   onCellClicked: (event) => console.log('rowData.Col1')
