@@ -96,7 +96,7 @@ function arrayList(){
 		           Col5: array[i].val7, Col6: array[i].val8,  });
     }
 if (i == 100){
-			rowData.push({Col1: " Итого", Col3 : sum.toFixed(2), Col4: (accum/array.length).toFixed(2),});
+			rowData.push({Col1: " Итого", Col3 : sum.toFixed(2) + 'кг', Col4: (accum/array.length).toFixed(2),});
 		}
 }
 
@@ -106,18 +106,14 @@ return rowData;
 
 
 const gridOptions = {
-    defaultColDef: {
-    editable: true,
-    sortable: true,
-    flex: 1,
-    minWidth: 100,
-    filter: true,
-    resizable: true,
-    tooltipComponent: CustomTooltip,
+  defaultColDef: {
+   tooltipComponent: CustomTooltip,
   },
+   
   columnDefs: columnDefs, 
   tooltipShowDelay: 0,
   tooltipHideDelay: 2000,
+ 
   rowData: rowData,
 
   onCellClicked: (event) => console.log('rowData.Col1')
