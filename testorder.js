@@ -50,41 +50,39 @@ createArray();
 
 
 const columnDefs = [
-    { 
+   { 
 	headerName: 'GROUP1',
 
     children: [
-        {field:'Col1',
+        {field:'Col1', rowGroup: true, 
             tooltipField: 'Col1',
             tooltipComponentParams: { color: '#ececec' },
          },
-        {field: 'Col2', tooltipField: 'Col2'},
-        {field: 'Col3' ,tooltipField: 'Col2'},
+         
+        {field: 'Col2', tooltipField: 'Col2', },
+        {field: 'Col3' ,tooltipField: 'Col3',  aggFunc: 'sum' },
         
     ]
 },
     {
     headerName: 'GROUP2',
     children:[  
-        {field: "Col4" },
+        {field: "Col4", aggFunc: 'avg' },
         {field: "Col5",  cellStyle: {'font-weight': 'bold','text-decoration': 'underline',} },
         {field: "Col6", filter: true,},
         ]
     },
-
-
-
     
 ];
+
     
 let rowofDataNames = ['Col1', ' Col2', 'Col3', 'Col4', 'Col5', 'Col6'];
 let rowData = [];
 function arrayList(){
 	let sum = 0 ;
 	let accum = 0;
-	for (let i = 0; i <= 100; i++){
+	for (let i = 0; i < 100; i++){
 		
-	if (i <= 99){
 
 	rowofDataNames = rowData[i];
    sum +=parseFloat(array[i].val2);
@@ -92,12 +90,10 @@ function arrayList(){
 
 	
 	rowData.push({ Col1: array[i].val6, Col2: array[i].val1, 
-		           Col3: array[i].val2 + 'кг', Col4: array[i].val4 + array[i].val5,
+		           Col3: array[i].val2 , Col4: array[i].val4 + array[i].val5,
 		           Col5: array[i].val7, Col6: array[i].val8,  });
-    }
-if (i == 100){
-			rowData.push({Col1: " Итого", Col3 : sum.toFixed(2) + 'кг', Col4: (accum/array.length).toFixed(2),});
-		}
+    
+
 }
 
 return rowData;
@@ -105,24 +101,35 @@ return rowData;
 }
 
 
+const localeText = AG_GRID_LOCALE_RU
+
 const gridOptions = {
+   
   defaultColDef: {
+    flex:1,
    tooltipComponent: CustomTooltip,
+   
   },
+  
+  autoGroupColumnDef: {
+        minWidth: 200,
+    },
    
   columnDefs: columnDefs, 
   tooltipShowDelay: 0,
   tooltipHideDelay: 2000,
- 
-  rowData: rowData,
-
-  onCellClicked: (event) => console.log('rowData.Col1')
+  groupIncludeFooter: true,
+  groupIncludeTotalFooter: true,
+  
+rowData: rowData,
+   localeText: localeText,
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 });
+
 
 console.log(array[0]);
 arrayList();
