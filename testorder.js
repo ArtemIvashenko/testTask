@@ -3,7 +3,7 @@ function createObj() {
 
 	let n = {
     	'val1': stringRandom(),
-        'val2': randomfloat(0, 10).toFixed(2),
+        'val2': randomfloat(0, 10).toFixed(2) * 100,
         'val3': randomfloat(0, 10).toFixed(4),
         'val4': randomInt(0, 10),
         'val5': randomInt(0, 10),
@@ -22,11 +22,10 @@ function createArray() {
 	for (let i = 0; i < 100; i++){
 		array.push(createObj());
 	}
-   console.log(array.length);      
- console.log(array);
        
         
 }
+//Функция случайной строки
 function stringRandom(){
 	let result = '';
 	let words = 'qwertyuiopasdfghjkzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
@@ -36,10 +35,12 @@ function stringRandom(){
     }
 	return result;
 }
+//Случайное число флоат
 function randomfloat(min, max){
 	return  min + Math.random() * max - min;
 	
 }
+//Случайное целое число
 function randomInt (min , max){
 	let random = min + Math.random() * (max + 1 - min);
 	return Math.floor(random);
@@ -53,23 +54,34 @@ const columnDefs = [
    { 
 	headerName: 'GROUP1',
 
-    children: [
-        {field:'Col1', rowGroup: true, 
-            tooltipField: 'Col1',
-            tooltipComponentParams: { color: '#ececec' },
-         },
-         
-        {field: 'Col2', tooltipField: 'Col2', },
-        {field: 'Col3' ,tooltipField: 'Col3',  aggFunc: 'sum' },
+        children: [
+            {
+                field:'Col1', rowGroup: true, 
+                tooltipField: 'Col1',
+                tooltipComponentParams: { color: '#ececec' },
+            },  
+            {
+                field: 'Col2', tooltipField: 'Col2', 
+            },
+            {
+                field: 'Col3' ,tooltipField: 'Col3', 
+                aggFunc: 'sum', valueFormatter: `data.Col3/100 + 'кг'`,
+            },
         
-    ]
-},
+        ]
+    },
     {
     headerName: 'GROUP2',
-    children:[  
-        {field: "Col4", aggFunc: 'avg' },
-        {field: "Col5",  cellStyle: {'font-weight': 'bold','text-decoration': 'underline',} },
-        {field: "Col6", filter: true,},
+        children:[  
+            {
+                field: "Col4", aggFunc: 'avg',
+            },
+            {
+                field: "Col5",  cellStyle: {'font-weight': 'bold','text-decoration': 'underline',} 
+            },
+            {
+                field: "Col6", filter: true,
+            },
         ]
     },
     
@@ -78,25 +90,20 @@ const columnDefs = [
     
 let rowofDataNames = ['Col1', ' Col2', 'Col3', 'Col4', 'Col5', 'Col6'];
 let rowData = [];
+
 function arrayList(){
-	let sum = 0 ;
-	let accum = 0;
-	for (let i = 0; i < 100; i++){
+	for (let i = 0; i < array.length; i++){
 		
 
 	rowofDataNames = rowData[i];
-   sum +=parseFloat(array[i].val2);
-   accum += array[i].val4 + array[i].val5;
-
-	
+   
+   
 	rowData.push({ Col1: array[i].val6, Col2: array[i].val1, 
-		           Col3: array[i].val2 , Col4: array[i].val4 + array[i].val5,
+		           Col3: array[i].val2  , Col4: array[i].val4 + array[i].val5,
 		           Col5: array[i].val7, Col6: array[i].val8,  });
-    
+    }
 
-}
-
-return rowData;
+    return rowData;
 
 }
 
@@ -105,24 +112,23 @@ const localeText = AG_GRID_LOCALE_RU
 
 const gridOptions = {
    
-  defaultColDef: {
-    flex:1,
-   tooltipComponent: CustomTooltip,
-   
-  },
+    defaultColDef: {
+        flex:1,
+        tooltipComponent: CustomTooltip,  
+    },
   
-  autoGroupColumnDef: {
+    autoGroupColumnDef: {
         minWidth: 200,
     },
    
-  columnDefs: columnDefs, 
-  tooltipShowDelay: 0,
-  tooltipHideDelay: 2000,
-  groupIncludeFooter: true,
-  groupIncludeTotalFooter: true,
+    columnDefs: columnDefs, 
+    tooltipShowDelay: 0,
+    tooltipHideDelay: 2000,
+    groupIncludeFooter: true,
+    groupIncludeTotalFooter: true,
   
-rowData: rowData,
-   localeText: localeText,
+    rowData: rowData,
+    localeText: localeText,
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -131,5 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-console.log(array[0]);
+
+
 arrayList();
