@@ -18,14 +18,16 @@ function createObj() {
 
 const deltaIndicator = (params) => {
     const element = document.createElement('span');
-
+    let total = 'Итого';
     const imageElement = document.createElement('img');
     imageElement.style.height = '32px';
-    imageElement.style.width = '32px';
-
+    imageElement.style.width = '32px';                       
+    if (params.value !== total ){
         imageElement.src =
             img[randomInt(0,4)];
-    
+    } else {
+        return total;
+    } 
     element.appendChild(imageElement);
     return element;
 };
@@ -70,7 +72,7 @@ const columnDefs = [
 
         children: [
             {
-                field:'Col1', rowGroup: true, hide: true,
+                field:'Col1',  aggFunc: 'total',
                 cellRenderer: deltaIndicator,
                 tooltipField: 'Col1',
                 tooltipComponentParams: { color: '#ececec' },
@@ -96,7 +98,7 @@ const columnDefs = [
                 field: "Col5",  cellStyle: {'font-weight': 'bold','text-decoration': 'underline',} 
             },
             {
-                field: "Col6", filter: true,
+                field: "Col6", filter:true,
             },
         ]
     },
@@ -137,7 +139,6 @@ const gridOptions = {
         minWidth: 200,
         cellRendererParams: {
             footerValueGetter : params => {
-
                 return 'Итого';
             },
         }
@@ -147,14 +148,20 @@ const gridOptions = {
             let sum = 0;
             params.values.forEach(value => sum = parseFloat(sum) + parseFloat(value));
             return sum.toFixed(2) ;
-        },    
+        }, 
+        'total': params => {
+            let total = '';
+            params.values.forEach(value => total = 'Итого');
+            return total ;
+        }, 
+         
     },
    
     columnDefs: columnDefs, 
     tooltipShowDelay: 0,
     tooltipHideDelay: 2000,
     groupIncludeTotalFooter: true,
-    
+  
     rowData: rowData,
     localeText: localeText,
 
@@ -168,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
 });
+
 function avgAggFunction(params) {
   let sum = 0;
   let count = 0;
@@ -199,6 +207,7 @@ const result = {
 
   return result;
 }
+
 
 
 
