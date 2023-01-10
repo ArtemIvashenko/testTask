@@ -1,4 +1,5 @@
-let img = ['./bananas.png', './apple.jpg', './pineapple.jpg', './orange.jpg', './pear.jpg'];
+let img = ['./img/bananas.png', './img/apple.jpg', './img/pineapple.jpg', './img/orange.jpg', './img/pear.jpg'];
+let val8String = ['str1', 'str2', 'str3', 'str4', 'str5'];
 function createObj() {
 
 	let n = {
@@ -9,7 +10,7 @@ function createObj() {
         'val5': randomInt(0, 10),
         'val6': img[randomInt(0,4)],
         'val7': stringRandom(),
-        'val8': stringRandom(),
+        'val8': val8String[randomInt(0,4)],
     }
 
     return n;
@@ -83,7 +84,7 @@ const columnDefs = [
             },
             {
                 field: 'Col3' , tooltipField: 'Col3', 
-                aggFunc: 'mySum', valueFormatter: `data.Col3 + 'кг'`,
+                aggFunc: 'mySum', valueFormatter: `data.Col3 + ' кг'`,
             },
         
         ]
@@ -147,7 +148,7 @@ const gridOptions = {
         'mySum': params => {
             let sum = 0;
             params.values.forEach(value => sum = parseFloat(sum) + parseFloat(value));
-            return sum.toFixed(2) ;
+            return sum.toFixed(2) + ' кг';
         }, 
         'total': params => {
             let total = '';
